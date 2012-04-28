@@ -279,7 +279,7 @@ void setup()
   arduino_ready();
 
   // blink
-  pinMode(13, OUTPUT);
+ // pinMode(13, OUTPUT);
 }
 
 float rads(int n) {
@@ -437,15 +437,17 @@ long timeoutInterval = 2000; // 2 seconds
 long previousMillis = 0;
 int counter = 0;
 
+
 void timeout()
 {
   // blink
-  if (counter % 2)
-    digitalWrite(13, HIGH);
-  else
-    digitalWrite(13, LOW);
+//  if (counter % 2)
+//    digitalWrite(13, HIGH);
+//  else
+//    digitalWrite(13, LOW);
   counter ++;
-}  
+} 
+
 
 void loop() 
 {
@@ -455,7 +457,7 @@ void loop()
   // handle timeout function, if any
   if (  millis() - previousMillis > timeoutInterval )
   {
-    timeout();
+    //timeout();
     previousMillis = millis();
   }
 
