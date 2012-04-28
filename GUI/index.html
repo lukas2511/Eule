@@ -14,8 +14,11 @@
         <script src="jquery.js" type="text/javascript"></script>
         <script type="text/javascript">
 	var buffer="";
+	var maxX=400;
+	var maxY=400;
 	function addData(X,Y,pen,clear){
-		buffer=buffer+X+","+Y+","+pen+"\n";
+		//buffer=buffer+Math.round(X/maxX*100)+","+Math.round(Y/maxY*100)+","+pen+"\n";
+		buffer=buffer+Math.round(X)+","+Math.round(Y)+","+pen+"\n";		
 	}
 	function clearData(){
 		buffer="";
@@ -105,7 +108,7 @@
                 //Extra Links Code
                 $('#export').click(function(e){
                     e.preventDefault();
-                    $.post("/data",buffer);
+                    $.post("http://localhost:8081/data",buffer);
                     //console.log(canvas.toDataURL());
                 });
                 $('#clear').click(function(e){
