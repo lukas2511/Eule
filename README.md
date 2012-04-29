@@ -14,4 +14,11 @@ Parts
 
 Remember: This is an "international project" started at http://hackathon.advance-conference.com
 
+Hardware:
+- Arduino
+- Adafruit Motor Shield
+- 2x Stepper Motor QSH4218
+- 1x Servo
+
+
 ![Here is a picture](https://github.com/lukas2511/Eule/raw/master/Pictures/2012-04-29%2013.40.42.jpg)
