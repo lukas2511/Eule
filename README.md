@@ -14,5 +14,4 @@ Parts
 
 Remember: This is an "international project" started at http://hackathon.advance-conference.com
 
-
 ![Here is a picture](/Pictures/2012-04-29 13.40.42.jpg)
