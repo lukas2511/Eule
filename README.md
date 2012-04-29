@@ -5,6 +5,8 @@ Eule is an Arduino-Drawbot with Ethernet-Connection and a nice and clean WebInte
 
 Have fun with the code & get excited with your own Drawbot.
 
+Currently the code is very dirty and has some "minor" security problems and bugs.. this may be fixed.. maybe.. so if you want to use it.. please use it in a clean directory and don't run this as root..
+
 Parts
 - Hardware Construktion
 - Basic Software Layer (Movements)
@@ -19,6 +21,5 @@ Hardware:
 - Adafruit Motor Shield
 - 2x Stepper Motor QSH4218
 - 1x Servo
-
 
 ![Here is a picture](https://github.com/lukas2511/Eule/raw/master/Pictures/2012-04-29%2013.40.42.jpg)
