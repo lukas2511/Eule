@@ -12,49 +12,28 @@
 
 #define motorStepsA 240               
 #define motorStepsB 240                                           
-#define SCHRITTART INTERLEAVE // -- > SINGLE, DOUBLE. INTERLEAVE or MICROSTEP
-#define SPEED 5
+#define SCHRITTART DOUBLE // -- > SINGLE, DOUBLE. INTERLEAVE or MICROSTEP
+#define SPEED 15
 
 // Approximate number of steps per inch, calculated from radius of spool
 // and the number of steps per radius
 int StepUnit = 40;   
 
 // Approximate dimensions of the total drawing area
-int w= 4.5*StepUnit;
-int h= 4.5*StepUnit;
+int w= 40.5*StepUnit;
+int h= 40.5*StepUnit;
 
 AF_Stepper motorL(motorStepsA, 1);
 AF_Stepper motorR(motorStepsB, 2);
 Servo pen;
 
-// Coordinates of current (starting) point
+// Coordinates of current (starting) point  -->> mitte oben
 int x1= w/2;
 int y1= h;
 
 // Approximate length of strings from marker to staple
 int a1= sqrt(pow(x1,2)+pow(y1,2));
 int b1= sqrt(pow((w-x1),2)+pow(y1,2));
-
-// Size of image array
-int rows = 31;  
-int columns = 23  ;
-
-// Radius of pixel circles, in StepUnits
-int radius = 40;   // equals about .4 inches  
-
-// Size of page
-int pageW = columns*radius*2;
-int pageH = rows*radius*2;
-
-// Size of one "pixel"
-int cellW =2*radius;
-int cellH = 2*radius;
-
-// Coordinate of upper left corner of page
-int page0X = x1-(pageW/2)-400;
-int page0Y = y1-pageH-500;
-
-
 
 // cmdMessenger changes by Oliver Dille
 // merging cmdMessenger with Drawbot portrait of Erik Satie: habo
@@ -88,15 +67,14 @@ enum
 // They start at the address kSEND_CMDS_END defined ^^ above as 004
 messengerCallbackFunction messengerCallbacks[] = 
 {
-  moveX,  //004
-  moveY, // 005
-  penDown, //006
-  movetoXY, //007
+  //function, // nr -> command in ascii
+  moveX,  //004     -> 4,number;
+  moveY, // 005     -> 5,number;
+  penDown, //006    -> 6,boolean;
+  movetoXY, //007   -> 7,number,number;
   
   NULL
 };
-
-
 
 
 // ------------------ C A L L B A C K  M E T H O D S -------------------------
@@ -255,14 +233,18 @@ void attach_callbacks(messengerCallbackFunction* callbacks)
 
 void setup() 
 {
-  delay(1000);
+  delay(500);
   // Listen on serial connection for messages from the pc
   // Serial.begin(57600);  // Arduino Duemilanove, FTDI Serial
   Serial.begin(9600); // Arduino Uno, Mega, with AT8u2 USB
-  delay(1000);
+  delay(500);
 
   motorL.setSpeed(SPEED);
   motorR.setSpeed(SPEED);
+  
+  delay(50);
+  motorL.step(1, BACKWARD, SCHRITTART);   
+  motorR.step(1, BACKWARD, SCHRITTART);   
   
   pen.attach(9);
 
@@ -327,19 +309,13 @@ void moveTo(int x2, int y2) {
 
   // Change the length of a1 and b1 until they are equal to the desired length
   while ((a1!=a2) || (b1!=b2)) {
-    Serial.print("a1=");
-    Serial.print(a1,DEC);
-    Serial.print("  a2=");
-    Serial.print(a2,DEC);
-    Serial.print("    b1=");
-    Serial.print(b1,DEC);
-    Serial.print("  b2=");
-    Serial.print(b2,DEC);
+
+    
     if (a1!=a2) { 
       a1 += stepA;
       //StepperA.step(stepA);
       if (stepA!=0)
-        motorL.step(1, stepA<0?FORWARD:BACKWARD, SCHRITTART);   
+        motorL.step(1, stepA>0?FORWARD:BACKWARD, SCHRITTART);   
     }
     if (b1!=b2) { 
       b1 += stepB;
@@ -347,12 +323,6 @@ void moveTo(int x2, int y2) {
       if (stepB!=0)
         motorR.step(1, stepB>0?FORWARD:BACKWARD, SCHRITTART); 
     }
-      Serial.print("   ");
-      if (stepA!=0)
-            Serial.print("A");
-      if (stepB!=0)
-            Serial.print("B");
-    Serial.println("  ");
   }
   x1 = x2;
   y1=y2;
